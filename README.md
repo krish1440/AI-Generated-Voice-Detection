@@ -1,13 +1,3 @@
----
-title: AudioShield AI Voice Detector
-emoji: 🛡️
-colorFrom: blue
-colorTo: purple
-sdk: docker
-app_file: app.py
-pinned: false
----
-
 # AudioShield AI: Voice Fraud Detection System
 
 > **Problem Statement 01**: AI-Generated Voice Detection for Regional Languages
@@ -135,3 +125,4 @@ This project is Dockerized for Hugging Face Spaces.
 
 ---
 *Developed for GUVI Hackathon.*
+
