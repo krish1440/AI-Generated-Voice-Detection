@@ -11,6 +11,7 @@ pinned: false
 # AudioShield AI: Voice Fraud Detection System
 
 > **Problem Statement 01**: AI-Generated Voice Detection for Regional Languages
+> **🔴 Live Demo**: [https://krish1440-ai-voice-detector-api.hf.space/docs](https://krish1440-ai-voice-detector-api.hf.space/docs)
 
 ![Architecture](Architechture.png)
 
