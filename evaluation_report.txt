@@ -1,0 +1,35 @@
+========================================
+CLASSIFICATION REPORT
+========================================
+Total Files: 70
+Accuracy:  91.43%
+Precision: 1.00
+Recall:    0.83
+F1 Score:  0.91
+--------------------
+Confusion Matrix:
+TP (AI as AI):       30
+TN (Human as Human): 34
+FP (Human as AI):    0
+FN (AI as Human):    6
+========================================
+
+Misclassified Files:
+- Connor.wav
+  Expected: AI_GENERATED, Got: HUMAN (0.64)
+  Reason: Ensemble Analysis: 1/4 models flagged this audio as AI-generated. Aggregated Score: 35.7%. Acoustic analysis confirms natural vocal resonance and organic production.
+- Davis.wav
+  Expected: AI_GENERATED, Got: HUMAN (0.54)
+  Reason: Ensemble Analysis: 2/4 models flagged this audio as AI-generated. Aggregated Score: 45.8%. Acoustic analysis confirms natural vocal resonance and organic production.
+- Guy.wav
+  Expected: AI_GENERATED, Got: HUMAN (0.6)
+  Reason: Ensemble Analysis: 1/4 models flagged this audio as AI-generated. Aggregated Score: 40.2%. Acoustic analysis confirms natural vocal resonance and organic production.
+- luvvoice.com-20260130-meZ4hD.mp3
+  Expected: AI_GENERATED, Got: HUMAN (0.71)
+  Reason: Ensemble Analysis: 1/4 models flagged this audio as AI-generated. Aggregated Score: 28.6%. Acoustic analysis confirms natural vocal resonance and organic production.
+- बंगाल की खाड़ी के शी.mp3
+  Expected: AI_GENERATED, Got: HUMAN (0.77)
+  Reason: Ensemble Analysis: 1/4 models flagged this audio as AI-generated. Aggregated Score: 22.6%. Acoustic analysis confirms natural vocal resonance and organic production.
+- sample voice 1.mp3.mpeg
+  Expected: AI_GENERATED, Got: HUMAN (0.81)
+  Reason: Ensemble Analysis: 1/4 models flagged this audio as AI-generated. Aggregated Score: 19.5%. Acoustic analysis confirms natural vocal resonance and organic production.
