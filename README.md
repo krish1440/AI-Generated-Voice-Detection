@@ -1,152 +1,123 @@
-# AVIS: AI Voice Integrity System
-### *Real-time Deepfake Audio Detection with XAI*
+# AudioShield AI: Voice Fraud Detection System
 
----
+> **Problem Statement 01**: AI-Generated Voice Detection for Regional Languages
+
+![Architecture](Architechture.png)
 
 ## 🚀 Overview
-AVIS is a production-grade REST API designed to detect AI-generated voice fraud with high precision. Built specifically for the **GUVI Hackathon (Problem Statement 01)**, it supports five major languages: **Tamil, Telugu, Hindi, Malayalam, and English**.
+**AudioShield AI** is a high-performance REST API designed to detect AI-generated voice deepfakes with exceptional accuracy. Built for the **GUVI Hackathon**, it specifically addresses the challenge of identifying synthetic audio in **Tamil, English, Hindi, Malayalam, and Telugu**.
 
-Most detectors act as "black boxes"; AVIS is different. It uses **Explainable AI (XAI)** to provide technical justifications for its decisions, helping users understand why a voice was flagged.
+Unlike standard detectors, AudioShield uses a **Multi-Model Voting Ensemble** approach, aggregating the intelligence of 4 state-of-the-art Wav2Vec2 models to make a final, highly reliable decision.
+
+## 🎯 Problem It Solves
+With the rise of Generative AI, voice scams and deepfakes are becoming indistinguishable from reality. Financial fraud, impersonation, and misinformation are growing threats. AudioShield provides a robust, scalable defense mechanism that can be integrated into calls, messaging apps, and verification systems.
 
 ## ✨ Key Features
-*   **Hybrid Detection Engine**: Combines state-of-the-art Transformers (Wav2Vec2) with custom Acoustic Feature Extraction (MFCC, Spectral Centroid, ZCR).
-*   **Explainable AI (XAI)**: Generates detailed technical justifications, including language-specific nuances (e.g., retroflex consonant analysis for Indian languages).
-*   **Robust Pre-processing**: Built-in **Noise Filtering** (Pre-emphasis) and **Peak Normalization** to handle varied audio qualities.
-*   **Performance Optimized**: Features a **Model Warm-up** routine on startup for zero-latency initial requests.
-*   **Secure by Design**: Strict `x-api-key` header protection.
+*   **🛡️ Voting Ensemble Power**: Leverages 4 distinct AI models (MelodyMachine, Mo-Creator, Hemgg, Gustking-XLSR) to minimize false positives.
+*   **🌍 Multi-Lingual Support**: Optimized for Indian regional languages (Tamil, Telugu, Hindi, Malayalam) + English.
+*   **⚡ Zero Cold Start**: Implements a "Warm-up" routine to ensure the first API request is as fast as the 100th.
+*   **🚀 Render-Ready**: Configured for seamless deployment on cloud platforms like Render.
+*   **🔍 Explainable AI**: Provides detailed JSON responses with classification confidence and logic.
 
----
-
-## 📐 System Design
-
-### **Architecture Overview**
-The system is built on a modular architecture that separates the API interface from the intensive AI processing logic, ensuring stability and performance on CPU hardware.
+## 🏗️ System Architecture
+The system follows a **Microservices-ready, Layered Architecture**:
 
 ```mermaid
 graph TD
-    subgraph "Client Layer"
-        User["User / Postman / App"]
+    User[Client / Postman] -->|HTTP POST (Base64)| API[FastAPI Service]
+    API -->|Async Thread| Engine[Detection Engine]
+    
+    subgraph "Ensemble Committee (The AI Core)"
+        Engine -->|Input| M1[MelodyMachine]
+        Engine -->|Input| M2[Mo-Creator]
+        Engine -->|Input| M3[Hemgg]
+        Engine -->|Input| M4[Gustking (XLSR)]
+        
+        M1 -->|Vote| Agg[Weighted Aggregator]
+        M2 -->|Vote| Agg
+        M3 -->|Vote| Agg
+        M4 -->|Vote| Agg
     end
-
-    subgraph "API Layer (FastAPI)"
-        Gateway["API Gateway"]
-        Auth["Auth Validator (x-api-key)"]
-    end
-
-    subgraph "Processing Logic"
-        PreProc["Audio Pre-processor (Librosa)"]
-        FeatEx["Acoustic Feature Extractor"]
-        Transf["Wav2Vec2 Transformer"]
-    end
-
-    subgraph "Decision Engine"
-        XAI["XAI Reasoning Engine"]
-    end
-
-    User --> Gateway
-    Gateway --> Auth
-    Auth --> PreProc
-    PreProc --> FeatEx
-    PreProc --> Transf
-    FeatEx --> XAI
-    Transf --> XAI
-    XAI --> Gateway
+    
+    Agg -->|Final Score| Verdict[Classification Logic]
+    Verdict -->|JSON Response| User
 ```
 
-### **The "AVIS" Pipeline Flow**
-The step-by-step journey of an audio request through our system:
-
-```mermaid
-sequenceDiagram
-    participant U as Client
-    participant A as API Layer
-    participant P as Pre-processing
-    participant M as AI Model
-    participant X as XAI Engine
-
-    U->>A: POST (Base64 + x-api-key)
-    activate A
-    A->>A: Validate Security
-    A->>P: Decode & Clean Audio
-    activate P
-    P-->>M: Clean Waves
-    P-->>X: Acoustic Metadata
-    deactivate P
-    activate M
-    M->>M: Predict (Neural Patterns)
-    M-->>X: Prediction + Score
-    deactivate M
-    activate X
-    X->>X: Generate Scientific Reason
-    X-->>A: Final JSON Payload
-    deactivate X
-    A-->>U: HTTP 200 (Success)
-    deactivate A
-```
-
----
+### Core Components
+1.  **FastAPI Layer (`main.py`)**: Handles HTTP requests, validation, and async processing.
+2.  **Detection Engine (`detect.py`)**: Manages model loading, inference, and the ensemble voting logic.
+3.  **Models**:
+    *   `MelodyMachine/Deepfake-audio-detection-V2`
+    *   `mo-thecreator/Deepfake-audio-detection`
+    *   `Hemgg/Deepfake-audio-detection`
+    *   `Gustking/wav2vec2-large-xlsr-deepfake-audio-classification` (The "Expert" model)
 
 ## 🛠️ Tech Stack
-*   **Language**: Python 3.11+
-*   **Framework**: FastAPI (Web Engine), Uvicorn (Server)
-*   **AI/ML**: PyTorch, Hugging Face Transformers (Wav2Vec2)
-*   **Audio Processing**: Librosa (Feature Extraction), SoundFile
+*   **Language**: Python 3.10+
+*   **API Framework**: FastAPI, Uvicorn
+*   **ML Libraries**: PyTorch, Transformers, Librosa, NumPy
+*   **Deployment**: Docker-ready, Render-compatible
 
----
+## 🚀 Installation & Usage
 
-## 🏗️ Installation & Setup
-
-### 1. Prerequisites
-Ensure you have Python 3.11+ installed.
-
-### 2. Environment Setup (Recommended)
+### 1. Clone the Repository
 ```bash
-# Create a virtual environment
-python -m venv venv
-
-# Activate it
-# On Windows:
-.\venv\Scripts\activate
-# On Linux/macOS:
-source venv/bin/activate
+git clone https://github.com/krish1440/AI-Generated-Voice-Detection.git
+cd AI-Generated-Voice-Detection
 ```
 
-### 3. Install Dependencies
+### 2. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configuration
-Create a `.env` file in the root directory (or use the one provided):
-```env
-API_KEY=v_secret_key_123
-PORT=8000
-HOST=127.0.0.1
-```
-
----
-
-## 🚦 Usage Guide
-
-### Running the API Server
+### 3. Run the Server
 ```bash
 python main.py
 ```
-*   The server will initialize the AI model (approx. 300MB download on first run).
-*   Once you see `--- [AudioDetector] AI Model Ready! ---`, the server is live at `http://127.0.0.1:8000`.
+*The server will start on port `8000` (or the PORT env var).*
+*Note: On the first run, it will download necessary model weights (approx. 2-3GB).*
 
-### Running Local Verification
-To test the detection logic against the sample audio provided:
-```bash
-python test_locally.py
+## 🔌 API Documentation
+
+### Detect Voice
+**Endpoint**: `POST /api/voice-detection`
+
+**Request Body** (JSON):
+```json
+{
+  "language": "Tamil",
+  "audioFormat": "mp3",
+  "audioBase64": "<Base64 encoded MP3 string>"
+}
 ```
 
----
+**Response** (Success):
+```json
+{
+  "status": "success",
+  "language": "Tamil",
+  "classification": "AI_GENERATED",
+  "confidenceScore": 0.98,
+  "explanation": "Ensemble Analysis: 4/4 models flagged this audio as AI-generated."
+}
+```
 
-## 🧠 Why AVIS Wins
-1.  **Transparency**: We fulfill the "Explanation" requirement of the problem statement by analyzing acoustic biometrics (Pitch Variance, Spectral Centroid) instead of just returning a probability score.
-2.  **Hardware Efficiency**: Successfully optimized for CPU execution on mid-range laptops while maintaining high accuracy.
-3.  **Strict Compliance**: Every JSON field and security constraint mentioned in the GUVI Problem Statement has been implemented and verified.
+**Response** (Error):
+```json
+{
+  "status": "error",
+  "message": "Invalid Base64 encoding."
+}
+```
+
+## ☁️ Deployment (Render)
+This project is configured for Render.
+1.  Create a new **Web Service** on Render.
+2.  Connect your GitHub repository.
+3.  **Build Command**: `pip install -r requirements.txt`
+4.  **Start Command**: `python main.py`
+5.  Set Environment Variables (Optional): `PORT` (Render sets this automatically).
 
 ---
-*Developed for the AI for Fraud Detection & User Safety Hackathon.*
+*Developed for GUVI Hackathon.*
