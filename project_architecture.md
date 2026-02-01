@@ -9,7 +9,7 @@ The system follows a **Microservices-ready, Layered Architecture**:
 
 ```mermaid
 graph TD
-    User[Client / Postman] -->|HTTP POST (Base64)| API[FastAPI Service (main.py)]
+    User[Client / Postman] -->|HTTP POST (Base64)| API[FastAPI Service (app.py)]
     API -->|Async Thread| Engine[Detection Engine (detect.py)]
     
     subgraph "Ensemble Committee (The AI Core)"
@@ -30,7 +30,7 @@ graph TD
 
 ### 2.1 Core Components
 
-#### **A. The API Layer (`main.py`)**
+#### **A. The API Layer (`app.py`)**
 -   **Framework**: FastAPI (High-performance, async).
 -   **Protocol**: REST over HTTP.
 -   **Security**: Public Access (API Key validation removed for hackathon demo).
@@ -88,7 +88,7 @@ graph TD
 -   **Scalability**: The non-blocking architecture allows the API to handle concurrent requests without freezing.
 
 ## 5. File Structure
--   `main.py`: The entry point for the API server.
+-   `app.py`: The entry point for the API server.
 -   `detect.py`: Contains the `AudioDetector` class and ensemble logic.
 -   `test_api_strict.py`: Verification script to test strict adherence to specs.
 -   `.env`: Configuration secrets.

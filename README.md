@@ -44,7 +44,7 @@ graph TD
 ```
 
 ### Core Components
-1.  **FastAPI Layer (`main.py`)**: Handles HTTP requests, validation, and async processing.
+1.  **FastAPI Layer (`app.py`)**: Handles HTTP requests, validation, and async processing.
 2.  **Detection Engine (`detect.py`)**: Manages model loading, inference, and the ensemble voting logic.
 3.  **Models**:
     *   `MelodyMachine/Deepfake-audio-detection-V2`
@@ -73,7 +73,7 @@ pip install -r requirements.txt
 
 ### 3. Run the Server
 ```bash
-python main.py
+python app.py
 ```
 *The server will start on port `8000` (or the PORT env var).*
 *Note: On the first run, it will download necessary model weights (approx. 2-3GB).*
@@ -111,13 +111,15 @@ python main.py
 }
 ```
 
-## ☁️ Deployment (Render)
-This project is configured for Render.
-1.  Create a new **Web Service** on Render.
+## ☁️ Deployment (Hugging Face Spaces)
+This project is Dockerized for Hugging Face Spaces.
+
+1.  Create a new **Space** on Hugging Face using the **Docker** SDK.
 2.  Connect your GitHub repository.
-3.  **Build Command**: `pip install -r requirements.txt`
-4.  **Start Command**: `python main.py`
-5.  Set Environment Variables (Optional): `PORT` (Render sets this automatically).
+3.  Hugging Face will automatically build using the `Dockerfile`.
+4.  The API will be live at `https://huggingface.co/spaces/YOUR_USERNAME/SPACE_NAME/api/voice-detection`.
+
+**Note**: The Dockerfile builds `ffmpeg` and runs as user `1000` for security compliance on Spaces.
 
 ---
 *Developed for GUVI Hackathon.*

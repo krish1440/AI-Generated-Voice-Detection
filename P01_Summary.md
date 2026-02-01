@@ -59,7 +59,7 @@ Build a secure REST API that detects whether a given voice sample is **AI-genera
 ---
 
 ## 📂 Project Files
-*   `main.py`: API Server & Security
+*   `app.py`: API Server & Security
 *   `detect.py`: AI Engine & Acoustic Analysis
 *   `test_locally.py`: Local Verification Script
 *   `README.md`: Full Documentation & Diagrams
