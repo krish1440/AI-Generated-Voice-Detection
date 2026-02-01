@@ -24,8 +24,8 @@ The system follows a **Microservices-ready, Layered Architecture**:
 
 ```mermaid
 graph TD
-    User[Client / Postman] -->|HTTP POST (Base64)| API[FastAPI Service]
-    API -->|Async Thread| Engine[Detection Engine]
+    User[Client / Postman] -->|"HTTP POST (Base64)"| API[FastAPI Service]
+    API -->|"Async Thread"| Engine[Detection Engine]
     
     subgraph "Ensemble Committee (The AI Core)"
         Engine -->|Input| M1[MelodyMachine]
