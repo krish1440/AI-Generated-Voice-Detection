@@ -128,9 +128,4 @@ def health_check():
         "models_loaded": len(detector.pipelines) if hasattr(detector, 'pipelines') else 0
     }
 
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))
-    # Render requires 0.0.0.0 to be accessible externally
-    host = "0.0.0.0" 
-    logger.info(f"--- Starting Server on http://{host}:{port} ---")
-    uvicorn.run(app, host=host, port=port)
+# Standard execution for HF Spaces (uvicorn launched via Docker CMD)
