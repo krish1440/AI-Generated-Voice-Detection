@@ -31,7 +31,7 @@ graph TD
         Engine -->|Input| M1[MelodyMachine]
         Engine -->|Input| M2[Mo-Creator]
         Engine -->|Input| M3[Hemgg]
-        Engine -->|Input| M4[Gustking (XLSR)]
+        Engine -->|Input| M4["Gustking (XLSR)"]
         
         M1 -->|Vote| Agg[Weighted Aggregator]
         M2 -->|Vote| Agg
